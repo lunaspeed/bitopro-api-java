@@ -1,16 +1,17 @@
 package com.bitoex.bitopro.java.client;
 
 import com.bitoex.bitopro.java.client.BitoProPublicClient.BitoProPublicPairClient;
-import com.bitoex.bitopro.java.model.Trade;
-import com.bitoex.bitopro.java.model.Ticker;
-import com.bitoex.bitopro.java.model.OrderBook;
 
 import java.io.IOException;
 import java.util.List;
 
+import com.bitoex.bitopro.java.model.OrderBook;
+import com.bitoex.bitopro.java.model.Ticker;
+import com.bitoex.bitopro.java.model.Trade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class BitoProPublicClientTest {
@@ -51,8 +52,22 @@ public class BitoProPublicClientTest {
   @Test
   public void testOrderBook() throws IOException {
 
-    OrderBook ob = pairClient.getOrderBook();
+    OrderBook ob = pairClient.getOrderBook(Integer.valueOf(1), Integer.valueOf(0));
     logger.info("order book: {}", ob);
+  }
+
+  @Test
+  public void testCurrencies() throws IOException {
+
+    List<Currency> currencies = client.getCurrencies();
+    logger.info("currencies: {}", currencies);
+  }
+
+  @Test
+  public void testTradingPairs() throws IOException {
+
+    List<Pair> pairs = client.getTradingPairs();
+    logger.info("pairs: {}", pairs);
   }
 
 }

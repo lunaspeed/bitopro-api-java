@@ -5,16 +5,16 @@ import static org.junit.Assert.assertTrue;
 
 import com.bitoex.bitopro.java.client.BitoProClient.BitoProPairClient;
 import com.bitoex.bitopro.java.exception.BadArgumentException;
-import com.bitoex.bitopro.java.model.Balance;
-import com.bitoex.bitopro.java.model.Order;
-import com.bitoex.bitopro.java.model.OrderAction;
-import com.bitoex.bitopro.java.model.OrderResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import com.bitoex.bitopro.java.model.Balance;
+import com.bitoex.bitopro.java.model.OrderAction;
+import com.bitoex.bitopro.java.model.OrderResponse;
+import com.bitoex.bitopro.java.model.TriggerCondition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
@@ -55,27 +55,39 @@ public class BitoProClientTest {
   }
 
   @Ignore
-  @Test
-  public void testGetOrder() throws IOException {
-    Optional<Order> order = pairClient.getOrder("xxx");
+  @Test(expected = BadArgumentException.class)
+  public void testCreateStopLimitOrderWithLowAmount() throws IOException {
+    BigDecimal price = new BigDecimal("1");
+    BigDecimal amount = new BigDecimal("0.0005");
+    BigDecimal stopPrice = new BigDecimal("2");
+    pairClient.createStopLimitOrder(OrderAction.BUY, TriggerCondition.LESS_THAN_OR_EQUAL_TO, stopPrice, price, amount);
+  }
 
-    assertFalse(order.isPresent());
-    
+  @Ignore
+  @Test(expected = BadArgumentException.class)
+  public void testGetOrder() throws IOException {
+    try {
+      Optional<Order> order = pairClient.getOrder("123");
+
+    }
+    catch (BadArgumentException e) {
+      System.out.println(e.getMessage());
+      throw e;
+    }
   }
 
   @Ignore
   @Test
-  public void testCancelNonexsitingOrder() throws IOException {
+  public void testCancelNoneExitingOrder() throws IOException {
     Optional<OrderResponse> r = pairClient.cancelOrder("123");
     assertFalse(r.isPresent());
-    
   }
 
   //run with caution, order will be placed
   @Ignore
   @Test
   public void testMarketOrder() throws IOException {
-    BigDecimal totalAmount = new BigDecimal("0.1");
+    BigDecimal totalAmount = new BigDecimal("0.01");
     OrderResponse or = pairClient.createMarketOrder(OrderAction.BUY, totalAmount);
     logger.info("market order response: {}", or);
   }

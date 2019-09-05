@@ -11,6 +11,8 @@ public class OrderRequest {
     private BigDecimal price;
     private OrderType type;
     private long timestamp;
+    private String condition;
+    private BigDecimal stopPrice;
 
     public OrderAction getAction() {
         return action;
@@ -50,6 +52,22 @@ public class OrderRequest {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public BigDecimal getStopPrice() {
+        return stopPrice;
+    }
+
+    public void setStopPrice(BigDecimal stopPrice) {
+        this.stopPrice = stopPrice;
     }
 
     public String toString() {

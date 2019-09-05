@@ -22,6 +22,7 @@ public class Order {
     private final OrderStatus status;
     private final long timestamp;
     private final OrderType type;
+    private final BigDecimal total;
 
     @JsonCreator
     public Order(OrderAction action,
@@ -37,7 +38,8 @@ public class Order {
                  BigDecimal remainingAmount,
                  OrderStatus status,
                  long timestamp,
-                 OrderType type) {
+                 OrderType type,
+                 BigDecimal total) {
         this.action = action;
         this.avgExecutionPrice = avgExecutionPrice;
         this.bitoFee = bitoFee;
@@ -52,6 +54,7 @@ public class Order {
         this.status = status;
         this.timestamp = timestamp;
         this.type = type;
+        this.total = total;
     }
 
     public OrderAction getAction() {
@@ -108,6 +111,10 @@ public class Order {
 
     public OrderType getType() {
         return type;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
     }
 
     @Override

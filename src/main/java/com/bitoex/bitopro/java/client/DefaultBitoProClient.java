@@ -17,6 +17,7 @@ import com.bitoex.bitopro.java.model.OrderResponse;
 import com.bitoex.bitopro.java.model.OrderType;
 import com.bitoex.bitopro.java.model.PaginatedList;
 import com.bitoex.bitopro.java.model.ResponseWrapper;
+import com.bitoex.bitopro.java.model.TriggerCondition;
 import com.bitoex.bitopro.java.signature.Signature;
 import com.bitoex.bitopro.java.util.BitoProUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -95,6 +96,25 @@ public class DefaultBitoProClient extends AbstractBitoProClient implements BitoP
         or.setPrice(price);
         or.setAmount(amount);
         or.setTimestamp(System.currentTimeMillis());
+        return executeRequest("/orders/" + pair, HttpPost.METHOD_NAME, Optional.of(or), OrderResponse.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OrderResponse createStopLimitOrder(String pair, OrderAction action, TriggerCondition condition, BigDecimal stopPrice, BigDecimal price, BigDecimal amount) throws IOException {
+
+        validatePair(pair);
+        OrderRequest or = new OrderRequest();
+        or.setType(OrderType.STOP_LIMIT);
+        or.setAction(action);
+        or.setPrice(price);
+        or.setAmount(amount);
+        or.setCondition(condition.asCondition());
+        or.setStopPrice(stopPrice);
+        or.setTimestamp(System.currentTimeMillis());
+        System.out.println("in create limit");
         return executeRequest("/orders/" + pair, HttpPost.METHOD_NAME, Optional.of(or), OrderResponse.class);
     }
 

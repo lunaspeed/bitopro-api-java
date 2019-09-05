@@ -57,6 +57,10 @@ public final class OrderBook {
         public BigDecimal getTotal() {
             return total;
         }
+
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this);
+        }
     }
 
     public String toString() {

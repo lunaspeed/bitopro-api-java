@@ -1,15 +1,17 @@
 package com.bitoex.bitopro.java.client;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-
 import com.bitoex.bitopro.java.model.Balance;
 import com.bitoex.bitopro.java.model.Order;
 import com.bitoex.bitopro.java.model.OrderAction;
 import com.bitoex.bitopro.java.model.OrderResponse;
 import com.bitoex.bitopro.java.model.PaginatedList;
+import com.bitoex.bitopro.java.model.TriggerCondition;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 
 /**
  * Client for BitoPro API. Provides direct methods to access BitoPro API.
@@ -50,10 +52,25 @@ public interface BitoProClient {
    * @param price  price in terms of quote for the order
    * @param amount amount in terms of quote for the order
    * @return {@link OrderResponse} with result of the order placed
-   * @throws IOException when connection error occured while called the Rest API
+   * @throws IOException when connection error occurred while called the Rest API
    */
   OrderResponse createLimitOrder(String pair, OrderAction action, BigDecimal price, BigDecimal amount)
       throws IOException;
+
+  /**
+   * Place a stop limit price order.
+   *
+   * @param pair the pair to place order
+   * @param action {@link OrderAction} for the order, either BUY or SELL
+   * @param condition {@link TriggerCondition} to determine whether the stop price is triggered.
+   * @param stopPrice the price compared to market price to trigger the order.
+   * @param price  price in terms of quote for the order
+   * @param amount amount in terms of quote for the order
+   * @return {@link OrderResponse} with result of the order placed
+   * @throws IOException when connection error occurred while called the Rest API
+   */
+  OrderResponse createStopLimitOrder(String pair, OrderAction action, TriggerCondition condition, BigDecimal stopPrice, BigDecimal price, BigDecimal amount)
+          throws IOException;
 
   /**
    * Cancel an order. If order id is not found, a
@@ -148,6 +165,21 @@ public interface BitoProClient {
      */
     public OrderResponse createLimitOrder(OrderAction action, BigDecimal price, BigDecimal amount) throws IOException {
       return client.createLimitOrder(pair, action, price, amount);
+    }
+
+    /**
+     * Place a stop limit price order.
+     *
+     * @param action {@link OrderAction} for the order, either BUY or SELL
+     * @param condition {@link TriggerCondition} to determine whether the stop price is triggered.
+     * @param stopPrice the price compared to market price to trigger the order.
+     * @param price  price in terms of quote for the order
+     * @param amount amount in terms of quote for the order
+     * @return {@link OrderResponse} with result of the order placed
+     * @throws IOException when connection error occurred while called the Rest API
+     */
+    OrderResponse createStopLimitOrder(OrderAction action, TriggerCondition condition, BigDecimal stopPrice, BigDecimal price, BigDecimal amount) throws IOException {
+      return client.createStopLimitOrder(pair, action, condition, stopPrice, price, amount);
     }
 
     /**

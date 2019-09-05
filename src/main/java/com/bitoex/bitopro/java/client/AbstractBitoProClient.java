@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 abstract class AbstractBitoProClient {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractBitoProClient.class);
-    private static final String URL_BASE = "https://api.bitopro.com/v2/";
+    private static final String URL_BASE = "https://api.bitopro.com/v3/";
 
     protected final CloseableHttpClient client;
     protected final ObjectMapper om;

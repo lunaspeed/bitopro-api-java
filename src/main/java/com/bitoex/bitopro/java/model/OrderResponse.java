@@ -13,15 +13,19 @@ public class OrderResponse {
     private final String orderId;
     private final BigDecimal price;
     private final long timestamp;
+    private final String condition;
+    private final BigDecimal stopPrice;
 
     @JsonCreator
-    public OrderResponse(String orderId, OrderAction action, BigDecimal amount, BigDecimal price, long timestamp) {
+    public OrderResponse(String orderId, OrderAction action, BigDecimal amount, BigDecimal price, long timestamp, String condition, BigDecimal stopPrice) {
 
         this.action = action;
         this.amount = amount;
         this.orderId = orderId;
         this.price = price;
         this.timestamp = timestamp;
+        this.condition = condition;
+        this.stopPrice = stopPrice;
     }
 
     public OrderAction getAction() {
